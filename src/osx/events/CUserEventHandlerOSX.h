@@ -1,5 +1,5 @@
 /*
- * CUserEventHandler.h
+ * CUserEventHandlerOSX.h
  *
  *  Created on: Oct 23, 2012
  *      Author: gregorytkach
@@ -30,11 +30,11 @@ namespace irrgame
 
 			//! This func must call from player when any key event from user detected.
 			//Platform dependent
-			void handleKeyEvent(void* e);
+			virtual void handleKeyEvent(void* e);
 
 			//! This func must call from player when any mouse event from user detected.
 			//Platform dependent
-			void handleMouseEvent(void* e);
+			virtual void handleMouseEvent(void* e);
 
 			protected:
 			//Platform dependent

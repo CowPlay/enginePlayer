@@ -5,6 +5,10 @@
  *      Author: gregorytkach
  */
 
+#include "playerCompileConfig.h"
+
+#ifdef TARGET_OS_OSX
+
 #include "utils/ITimer.h"
 #include <time.h>
 #include <sys/time.h>
@@ -23,4 +27,6 @@ namespace irrgame
 		}
 	}
 }
+
+#endif /* TARGET_OS_OSX */
 

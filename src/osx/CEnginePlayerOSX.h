@@ -5,6 +5,10 @@
  *      Author: developer08
  */
 
+#include "playerCompileConfig.h"
+
+#ifdef TARGET_OS_OSX
+
 #ifndef CENGINEPLAYEROSX_H_
 #define CENGINEPLAYEROSX_H_
 
@@ -24,3 +28,5 @@ namespace irrgame
 }  // namespace irrgame
 
 #endif /* CENGINEPLAYEROSX_H_ */
+
+#endif /* TARGET_OS_OSX */

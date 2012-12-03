@@ -49,6 +49,7 @@
 								<option id="gnu.cpp.link.option.libs.1568746751" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="engineSDK"/>
 									<listOptionValue builtIn="false" value="rt"/>
+									<listOptionValue builtIn="false" value="X11"/>
 									<listOptionValue builtIn="false" value="pthread"/>
 									<listOptionValue builtIn="false" value="dl"/>
 								</option>

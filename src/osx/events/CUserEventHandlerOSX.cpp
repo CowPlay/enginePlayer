@@ -87,9 +87,10 @@ namespace irrgame
 		}
 
 		//! This func must call from player when any key event from user detected.
+		//! Platform dependent.
 		void CUserEventHandlerMac::handleKeyEvent(void* e)
 		{
-			IUserEvent* userEvent;
+			IUserEvent* userEvent = 0;
 
 			objc_object* event = (objc_object*) e;
 
@@ -186,10 +187,10 @@ namespace irrgame
 		}
 
 		//! This func must call from player when any mouse event from user detected.
-		//Platform dependent
+		//! Platform dependent
 		void CUserEventHandlerOSX::handleMouseEvent(void* e)
 		{
-			IUserEvent* userEvent;
+			IUserEvent* userEvent = 0;
 			SCursorInfo* cursorInfo = CursorsInfo[0];
 
 			objc_object* event = (objc_object*) e;
@@ -270,7 +271,7 @@ namespace irrgame
 		//! Internal function. Please do not use.
 		IUserEventHandler * createUserEventsHandler()
 		{
-			return new CUserEventHandlerMac;
+			return new CUserEventHandlerOSX;
 		}
 
 	} /* namespace events */

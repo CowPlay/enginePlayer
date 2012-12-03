@@ -269,7 +269,7 @@ namespace irrgame
 	//! Handle user events in this func
 	bool irrgamePlayerMac::runInternal()
 	{
-		// Event handeling
+		// Event handling
 
 		// Check if application closed
 		bool result =
