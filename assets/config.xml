@@ -1,0 +1,9 @@
+<!--This is an irrgame player config file-->
+<config>
+	<application>
+		<attributes>
+			<string	name = "app_file"		value = "../thegame/Debug/libthegame.dylib"/>
+			<string name = "app_creator"	value = "createIrrgameApp"/>
+		</attributes>
+	</application>
+</config>

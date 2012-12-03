@@ -11,3 +11,11 @@
 *.lai
 *.la
 *.a
+
+# OSX
+*.DS_Store
+
+# linux
+
+DebugLinux/**
+ReleaseLinux/**
