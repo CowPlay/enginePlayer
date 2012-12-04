@@ -33,7 +33,7 @@ namespace irrgame
 {
 	//! Default consructor
 	irrgamePlayerMac::irrgamePlayerMac() :
-			CGLContext(0), IsActive(true)
+	CGLContext(0), IsActive(true)
 	{
 
 #ifdef DEBUG
@@ -51,6 +51,9 @@ namespace irrgame
 		//
 		//		CursorControl = new CCursorControl(CreationParams.WindowSize, this);
 		VideoDriver = video::createVideoDriver(this);
+
+		//create video mode list and fill it
+		VideoModeList = video::createVideoModeList();
 
 		//		createGUIAndScene();
 	}
@@ -73,7 +76,7 @@ namespace irrgame
 		// Initing the control delegate to bind internal app
 		//TODO: make real delegate (port the AppDelegate.mm) for event handeling
 		id delegate =
-				SEND_OBJC_MESSAGE_WITH_OBJECT((SEND_OBJC_MESSAGE(CLASS("AppDelegate"), "alloc")), "initWithDevice:", this);
+		SEND_OBJC_MESSAGE_WITH_OBJECT((SEND_OBJC_MESSAGE(CLASS("AppDelegate"), "alloc")), "initWithDevice:", this);
 
 		// Binding of delegate to app
 		SEND_OBJC_MESSAGE(
@@ -88,7 +91,7 @@ namespace irrgame
 
 		// Set current work directory (for linux/win32 resources style)
 		id path =
-				SEND_OBJC_MESSAGE(SEND_OBJC_MESSAGE(SEND_OBJC_MESSAGE(CLASS("NSBundle"), "mainBundle"), "bundlePath"), "stringByDeletingLastPathComponent");
+		SEND_OBJC_MESSAGE(SEND_OBJC_MESSAGE(SEND_OBJC_MESSAGE(CLASS("NSBundle"), "mainBundle"), "bundlePath"), "stringByDeletingLastPathComponent");
 		chdir(
 				(const char*) SEND_OBJC_MESSAGE(path, "fileSystemRepresentation"));
 
@@ -142,33 +145,33 @@ namespace irrgame
 		Window = objc_msgSend(SEND_OBJC_MESSAGE(CLASS("NSWindow"), "alloc"),
 				SELECTOR("initWithContentRect:styleMask:backing:defer:"), rect,
 				NSTitledWindowMask + NSClosableWindowMask
-						+ NSResizableWindowMask, 2, false);
+				+ NSResizableWindowMask, 2, false);
 
 		IRR_ASSERT(Window);
 
 		// Required attributes for window creating
 		s32 windowattribs[] =
-		{ 72,	//NSOpenGLPFANoRecovery. Disable all failure recovery systems
-				73, //NSOpenGLPFAAccelerated. Choose a hardware accelerated renderer
-				12, 		//NSOpenGLPFADepthSize. Number of depth buffer bits
-				depthSize, 	//NSOpenGLPFADepthSize value
-				8,			//NSOpenGLPFAColorSize. Number of color buffer bits
-				bits, 		//NSOpenGLPFAColorSize value
-				11, 	//NSOpenGLPFAAlphaSize. Number of alpha component bits
-				alphaSize, 	//NSOpenGLPFAAlphaSize value
-				55,	//NSOpenGLPFASampleBuffers. Number of multi sample buffers
-				1, 			//NSOpenGLPFASampleBuffers value
-				56, //NSOpenGLPFASamples. Number of samples per multi sample buffer
-				true, //NSOpenGLPFASamples value. True - Antialias is ON, False - Antialias - OFF
-				13,			//NSOpenGLPFAStencilSize
-				true,//NSOpenGLPFAStencilSize value. True - Stencil buffer is ON, False - Stencil buffer - OFF
-				5, //NSOpenGLPFADoubleBuffer. Choose a double buffered pixel format
-				0 			//NSOpenGLPixelFormatAttribute
-				};
+		{	72,	//NSOpenGLPFANoRecovery. Disable all failure recovery systems
+			73,//NSOpenGLPFAAccelerated. Choose a hardware accelerated renderer
+			12,//NSOpenGLPFADepthSize. Number of depth buffer bits
+			depthSize,//NSOpenGLPFADepthSize value
+			8,//NSOpenGLPFAColorSize. Number of color buffer bits
+			bits,//NSOpenGLPFAColorSize value
+			11,//NSOpenGLPFAAlphaSize. Number of alpha component bits
+			alphaSize,//NSOpenGLPFAAlphaSize value
+			55,//NSOpenGLPFASampleBuffers. Number of multi sample buffers
+			1,//NSOpenGLPFASampleBuffers value
+			56,//NSOpenGLPFASamples. Number of samples per multi sample buffer
+			true,//NSOpenGLPFASamples value. True - Antialias is ON, False - Antialias - OFF
+			13,//NSOpenGLPFAStencilSize
+			true,//NSOpenGLPFAStencilSize value. True - Stencil buffer is ON, False - Stencil buffer - OFF
+			5,//NSOpenGLPFADoubleBuffer. Choose a double buffered pixel format
+			0//NSOpenGLPixelFormatAttribute
+		};
 
 		//disable antialias
 
-		id format;	//NSOpenGLPixelFormat *format;
+		id format;//NSOpenGLPixelFormat *format;
 
 		//after one fail making pixel format we try 2 more times create it
 		for (int i = 0; i < 3; ++i)
@@ -209,9 +212,9 @@ namespace irrgame
 
 			// Trying to create pixelformat for opengl, if is success - we dont need to try another mode
 			format =
-					SEND_OBJC_MESSAGE_WITH_OBJECT(SEND_OBJC_MESSAGE(CLASS("NSOpenGLPixelFormat"), "alloc"), "initWithAttributes:", windowattribs);
+			SEND_OBJC_MESSAGE_WITH_OBJECT(SEND_OBJC_MESSAGE(CLASS("NSOpenGLPixelFormat"), "alloc"), "initWithAttributes:", windowattribs);
 			if (format)
-				break;
+			break;
 
 		}
 
@@ -255,7 +258,7 @@ namespace irrgame
 
 		// Getting internal OpenGLContext
 		CGLContext =
-				(CGLContextObj) SEND_OBJC_MESSAGE(OGLContext, "CGLContextObj");
+		(CGLContextObj) SEND_OBJC_MESSAGE(OGLContext, "CGLContextObj");
 
 		// Setting the internal OpenGLContext as default
 		CGLSetCurrentContext(CGLContext);
@@ -273,10 +276,10 @@ namespace irrgame
 
 		// Check if application closed
 		bool result =
-				!((bool) SEND_OBJC_MESSAGE(SEND_OBJC_MESSAGE(CLASS("NSApp"), "delegate"), "isQuit"))
-						&& IsActive;
+		!((bool) SEND_OBJC_MESSAGE(SEND_OBJC_MESSAGE(CLASS("NSApp"), "delegate"), "isQuit"))
+		&& IsActive;
 
-		id event; //NSEvent *event;
+		id event;//NSEvent *event;
 
 		//		storeMouseLocation();
 		//
@@ -304,31 +307,31 @@ namespace irrgame
 			switch (eventType)
 			{
 				case 1: //NSLeftMouseDown
-				case 2: //NSLeftMouseUp
-				case 3: //NSRightMouseDown
-				case 4: //NSRightMouseUp
-				case 5: //NSMouseMoved
-				case 6: //NSLeftMouseDragged
-				case 7: //NSRightMouseDragged
-				case 22: //NSScrollWheel
+				case 2://NSLeftMouseUp
+				case 3://NSRightMouseDown
+				case 4://NSRightMouseUp
+				case 5://NSMouseMoved
+				case 6://NSLeftMouseDragged
+				case 7://NSRightMouseDragged
+				case 22://NSScrollWheel
 //			case 25: //NSOtherMouseDown
 //			case 26: //NSOtherMouseUp
-				case 27: //NSOtherMouseDragged
+				case 27://NSOtherMouseDragged
 
 				{
 					UserEventsHandler->handleMouseEvent(event);
 					break;
 				}
 				case 10: //NSKeyDown
-				case 11: //NSKeyUp
-				case 12: //NSFlagsChanged
+				case 11://NSKeyUp
+				case 12://NSFlagsChanged
 				{
 					UserEventsHandler->handleKeyEvent(event);
 					break;
 				}
 				default:
 //				[NSApp sendEvent:event];
-					break;
+				break;
 			}
 		}
 		return result;
@@ -347,6 +350,5 @@ namespace irrgame
 #undef SEND_OBJC_MESSAGE
 #undef CLASS
 #undef SELECTOR
-
 
 #endif /* VIDEO_DRIVER_OPENGL */

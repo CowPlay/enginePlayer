@@ -55,9 +55,6 @@
 //			//! \return Returns a pointer to the mouse cursor control interface.
 //			virtual gui::ICursorControl* getCursorControl();
 //
-//			//! Returns a pointer to a list with all video modes supported by the gfx adapter.
-//			virtual video::IVideoModeList* getVideoModeList();
-//
 //			//! Returns a pointer to the ITimer object. With it the current Time can be received.
 //			virtual ITimer* getTimer();
 //
@@ -128,10 +125,7 @@
 //					f32 relativebrightness, f32 relativecontrast);
 //			void calculateGammaFromRamp(f32 &gamma, const u16 *ramp);
 //
-//			video::IVideoDriver* VideoDriver;
 //			gui::IGUIEnvironment* GUIEnvironment;
-//			scene::ISceneManager* SceneManager;
-//			ITimer* Timer;
 //			gui::ICursorControl* CursorControl;
 //			IEventReceiver* UserReceiver;
 //			CLogger* Logger;

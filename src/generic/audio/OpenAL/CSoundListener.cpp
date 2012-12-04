@@ -96,6 +96,13 @@ namespace irrgame
 		{
 			return RotationUp;
 		}
+
+		//! Internal function. Please do not use.
+		ISoundListener* createSoundListener()
+		{
+			return new CSoundListener;
+		}
+
 	}  // namespace audio
 }  // namespace irrgame
 

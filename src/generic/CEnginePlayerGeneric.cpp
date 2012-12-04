@@ -5,9 +5,9 @@
  *      Author: developer08
  */
 #include "CEnginePlayerGeneric.h"
-#include "audio/IAudioDriver.h"
+
 #include "events/engine/SharedEventScheduler.h"
-#include "events/user/IUserEventHandler.h"
+
 #include "scene/ISceneManager.h"
 #include "video/driver/IVideoDriver.h"
 #include "video/driver/IVideoModeList.h"
@@ -17,19 +17,22 @@ namespace irrgame
 	//!Default constructor
 	CEnginePlayerGeneric::CEnginePlayerGeneric() :
 			AudioDriver(0), VideoDriver(0), VideoModeList(0), ConfigReader(0), SceneManager(
-					0), UserEventsHandler(0), Timer(0)
+					0), SoundManager(0), UserEventsHandler(0), Timer(0)
 	{
+		AudioDriver = audio::createAudioDriver();
+
+		SoundManager = audio::createSoundManager();
+		//
 		//		ConfigReader = io::createPlayerConfigReader();
 		//
 		//		SceneManager = scene::createSceneManager();
 		//
 		//		//FIXME: read config from file or make default config for device before create video driver
 		//
-		//		VideoModeList = video::createVideoModeList();
-		//
-		//		//create
-		//		UserEventsHandler = events::createUserEventsHandler();
-		//
+
+		//create hadler for user events
+		UserEventsHandler = events::createUserEventsHandler();
+
 		//create and run actions pool
 		events::SharedEventScheduler::getInstance().startProcess();
 	}
@@ -39,6 +42,9 @@ namespace irrgame
 	{
 		if (AudioDriver)
 			AudioDriver->drop();
+
+		if (SoundManager)
+			SoundManager->drop();
 
 		if (VideoDriver)
 			VideoDriver->drop();
@@ -75,6 +81,12 @@ namespace irrgame
 	scene::ISceneManager* CEnginePlayerGeneric::getSceneManager()
 	{
 		return SceneManager;
+	}
+
+	//! Return pointer to audio manager
+	audio::ISoundManager* CEnginePlayerGeneric::getSoundManager()
+	{
+		return SoundManager;
 	}
 
 	//! Return pointer to user event handler

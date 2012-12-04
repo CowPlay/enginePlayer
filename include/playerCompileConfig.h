@@ -18,6 +18,7 @@
  * Constants
  */
 
-__attribute__ ((unused)) static const c8* fileConfig = "assets/config.xml";
+#define fileConfig "assets/config.xml"
+//__attribute__ ((unused)) static const c8* fileConfig = "assets/config.xml";
 
 #endif /* PLAYERCOMPILECONFIG_H_ */

@@ -477,6 +477,12 @@ namespace irrgame
 			this->onEvent(userEvent);
 		}
 
+		//! Internal function. Please do not use.
+		IUserEventHandler * createUserEventsHandler()
+		{
+			return new CUserEventHandlerLinux;
+		}
+
 	}  // namespace events
 
 }  // namespace irrgame

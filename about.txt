@@ -11,8 +11,9 @@ List of supported IDE:
 
 List of supported target systems:
 - linux;
-- ios;
-- osx.
+- osx;
+- ios.
+
 
 File structure
 /projects	-	projects files for mulptiple systems.

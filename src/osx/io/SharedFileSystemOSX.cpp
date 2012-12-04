@@ -6,7 +6,7 @@
  */
 #include "playerCompileConfig.h"
 
-#ifdef COMPILECONFIGMACOSX_H_
+#ifdef TARGET_OS_OSX
 
 #include "io/SharedFileSystem.h"
 #include "io/IFileList.h"
@@ -203,5 +203,6 @@ namespace irrgame
 
 	}		//end namespace io
 }		//end namespace irrgame
-#endif /* COMPILECONFIGMACOSX_H_ */
+
+#endif /* TARGET_OS_OSX */
 

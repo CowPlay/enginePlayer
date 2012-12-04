@@ -13,7 +13,24 @@
 
 #include "generic/CEnginePlayerGeneric.h"
 
+//OpenGL
+#define GLX_GLXEXT_LEGACY
+#include "OpenGL/gl.h"
+#include "OpenGL/glext.h"
+#include "OpenGL/glx.h"
+
+//X11
 #include "X11/Xlib.h"
+#include "X11/Xutil.h"
+#include <X11/keysym.h>
+
+//	#ifdef _IRR_LINUX_X11_VIDMODE_
+//	#include <X11/extensions/xf86vmode.h>
+//	#endif
+//	#ifdef _IRR_LINUX_X11_RANDR_
+//	#include <X11/extensions/Xrandr.h>
+//	#endif
+
 
 namespace irrgame
 {
@@ -33,41 +50,23 @@ namespace irrgame
 			/* Need for handle user events, update timers etc. */
 			virtual bool runInternal();
 
+			//! Create window
+			void createWindow();
+
 		private:
+
+			s32 DefaultScreen;
 			Display* X11Display;
 	};
 
 //	#ifdef _IRR_COMPILE_WITH_X11_DEVICE_
 //
-//	#include "CIrrDeviceStub.h"
-//	#include "IrrlichtDevice.h"
 //	#include "IImagePresenter.h"
 //	#include "ICursorControl.h"
 //
-//	#ifdef _IRR_COMPILE_WITH_X11_
 //
-//	#ifdef _IRR_COMPILE_WITH_OPENGL_
-//	#include <GL/gl.h>
-//	#define GLX_GLXEXT_LEGACY 1
-//	#include <GL/glx.h>
-//	#ifdef _IRR_OPENGL_USE_EXTPOINTER_
-//	#include "glxext.h"
-//	#endif
-//	#endif
 //
-//	#include <X11/Xlib.h>
-//	#include <X11/Xutil.h>
-//	#ifdef _IRR_LINUX_X11_VIDMODE_
-//	#include <X11/extensions/xf86vmode.h>
-//	#endif
-//	#ifdef _IRR_LINUX_X11_RANDR_
-//	#include <X11/extensions/Xrandr.h>
-//	#endif
-//	#include <X11/keysym.h>
-//
-//	#else
-//	#define KeySym s32
-//	#endif
+
 //
 //	namespace irr
 //	{
@@ -113,10 +112,6 @@ namespace irrgame
 //			//! notifies the device that it should close itself
 //			virtual void closeDevice();
 //
-//			//! \return Returns a pointer to a list with all video modes
-//			//! supported by the gfx adapter.
-//			video::IVideoModeList* getVideoModeList();
-//
 //			//! Sets if the window should be resizable in windowed mode.
 //			virtual void setResizable(bool resize=false);
 //
@@ -156,11 +151,6 @@ namespace irrgame
 //			}
 //
 //		private:
-//
-//			//! create the driver
-//			void createDriver();
-//
-//			bool createWindow();
 //
 //			void createKeyMap();
 //
@@ -306,7 +296,7 @@ namespace irrgame
 //							CursorPos.Y / (f32)ReferenceRect.getHeight());
 //				}
 //
-//				virtual void setReferenceRect(core::rect<s32>* rect=0)
+//				virtual void setReferenceRect(recti* rect=0)
 //				{
 //					if (rect)
 //					{
@@ -370,7 +360,7 @@ namespace irrgame
 //
 //			Display *display;
 //			XVisualInfo* visual;
-//			int screennr;
+//
 //			Window window;
 //			XSetWindowAttributes attributes;
 //			XSizeHints* StdHints;
@@ -410,7 +400,7 @@ namespace irrgame
 //
 //				bool operator<(const SKeyMap& o) const
 //				{
-//					return X11Key<o.X11Key;
+//					return X11Key < o.X11Key;
 //				}
 //			};
 //

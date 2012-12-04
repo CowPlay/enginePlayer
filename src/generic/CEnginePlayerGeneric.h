@@ -9,8 +9,11 @@
 #define CENGINEPLAYERGENERIC_H_
 
 #include "IEnginePlayer.h"
+#include "audio/IAudioDriver.h"
+#include "audio/ISoundManager.h"
 #include "events/user/IUserEventHandler.h"
 #include "video/driver/IVideoModeList.h"
+#include "video/driver/IVideoDriver.h"
 #include "utils/ITimer.h"
 
 namespace irrgame
@@ -35,6 +38,9 @@ namespace irrgame
 			//! Return pointer to scene manager
 			virtual scene::ISceneManager* getSceneManager();
 
+			//! Return pointer to audio manager
+			virtual audio::ISoundManager* getSoundManager();
+
 			//! Return pointer to user event handler
 			/* If you want handle any user event - you must work with this object. */
 			virtual events::IUserEventHandler* getUserEventsHandler();
@@ -58,12 +64,15 @@ namespace irrgame
 			audio::IAudioDriver* AudioDriver;
 			//! Pointer to current video driver
 			video::IVideoDriver* VideoDriver;
-			//! Pointer list of all support video modes
+			//TODO: move to IVideoDriver
+			//! Pointer list of all support video modes supported by the gfx adapter.
 			video::IVideoModeList* VideoModeList;
 			//! Pointer to config reader.
 			io::IPlayerConfigReader* ConfigReader;
 			//! Pointer to scene manager.
 			scene::ISceneManager* SceneManager;
+			//! Pointer to sound manager
+			audio::ISoundManager* SoundManager;
 			//! Pointer to user event handler
 			events::IUserEventHandler* UserEventsHandler;
 			//! Pointer to player timer

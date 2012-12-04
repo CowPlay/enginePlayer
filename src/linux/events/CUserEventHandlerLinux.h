@@ -19,7 +19,7 @@ namespace irrgame
 	namespace events
 	{
 
-		class CUserEventHandlerLinux: IUserEventHandler
+		class CUserEventHandlerLinux: public IUserEventHandler
 		{
 			public:
 				//! Default constructor
@@ -44,7 +44,6 @@ namespace irrgame
 		};
 
 	}  // namespace events
-
 }  // namespace irrgame
 
 #endif /* CUSEREVENTHANDLERLINUX_H_ */
