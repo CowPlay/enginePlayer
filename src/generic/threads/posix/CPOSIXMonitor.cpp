@@ -23,7 +23,7 @@ namespace irrgame
 		CPOSIXMonitor::CPOSIXMonitor()
 		{
 #ifdef DEBUG
-			setDebugName("CPOSIXMonitor");
+//			setDebugName("CPOSIXMonitor");
 #endif
 			pthread_mutex_init(&Handle, 0);
 		}
@@ -46,8 +46,8 @@ namespace irrgame
 		//! Releases the lock on an object. This action also marks the end of a critical section protected by the locked object.
 		void CPOSIXMonitor::exit()
 		{
-			drop();
 			pthread_mutex_unlock(&Handle);
+			drop();
 		}
 
 	}

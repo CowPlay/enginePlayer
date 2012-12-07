@@ -6,7 +6,7 @@
  */
 #include "playerCompileConfig.h"
 
-#ifdef TARGET_OS_OSX
+#if defined(TARGET_OS_OSX) || defined(TARGET_OS_LINUX)
 
 #include "io/SharedFileSystem.h"
 #include "io/IFileList.h"
