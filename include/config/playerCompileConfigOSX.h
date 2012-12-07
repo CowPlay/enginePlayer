@@ -7,7 +7,7 @@
 
 #include "config/compileConfigOSX.h"
 
-#ifdef COMPILECONFIGMACOSX_H_
+#ifdef DEV_OS_OSX
 
 #ifndef PLAYERCOMPILECONFIGMACOSX_H_
 #define PLAYERCOMPILECONFIGMACOSX_H_
@@ -43,4 +43,4 @@
 
 #endif /* PLAYERCOMPILECONFIGMACOSX_H_ */
 
-#endif /* COMPILECONFIGMACOSX_H_ */
+#endif /* DEV_OS_OSX */

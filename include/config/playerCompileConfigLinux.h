@@ -8,7 +8,7 @@
 
 #include "config/compileConfigLinux.h"
 
-#ifdef COMPILECONFIGLINUX_H_
+#ifdef DEV_OS_LINUX
 
 #ifndef PLAYERCOMPILECONFIGLINUX_H_
 #define PLAYERCOMPILECONFIGLINUX_H_
@@ -44,4 +44,4 @@
 
 #endif /* PLAYERCOMPILECONFIGLINUX_H_ */
 
-#endif /* COMPILECONFIGLINUX_H_ */
+#endif /* DEV_OS_LINUX */

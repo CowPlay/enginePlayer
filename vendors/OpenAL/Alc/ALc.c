@@ -957,12 +957,12 @@ static ALCboolean UpdateDeviceParams(ALCdevice *device, const ALCint *attrList)
 {
     ALCuint freq, numMono, numStereo, numSends;
     ALboolean running;
-    ALuint oldRate;
+//    ALuint oldRate;
     ALuint attrIdx;
     ALuint i;
 
     running = ((device->NumContexts > 0) ? AL_TRUE : AL_FALSE);
-    oldRate = device->Frequency;
+//    oldRate = device->Frequency;
 
     // Check for attributes
     if(attrList && attrList[0])
