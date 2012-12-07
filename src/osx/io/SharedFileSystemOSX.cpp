@@ -10,7 +10,7 @@
 
 #include "io/SharedFileSystem.h"
 #include "io/IFileList.h"
-#include "io/utils/ioutils.h"
+#include "io/utils/StaticIOUtils.h"
 
 #include <dirent.h>
 #include <sys/stat.h>
@@ -20,39 +20,41 @@ namespace irrgame
 {
 	namespace io
 	{
-		//! Converts a relative path to an absolute (unique) path, resolving symbolic links if required
-		//! Platform dependent
-		/** \param filename Possibly relative file or directory name to query.
-		 \result Absolute filename which points to the same file. */
-		core::stringc SharedFileSystem::getAbsolutePath(
-				const core::stringc& filename)
-		{
-			IRR_ASSERT(filename.size() > 0);
-
-			c8* p = 0;
-			c8 fpath[4096];
-			fpath[0] = 0;
-			p = realpath(filename.cStr(), fpath);
-
-			if (!p)
-			{
-				// content in fpath is unclear at this point
-				if (!fpath[0]) // seems like fpath wasn't altered, use our best guess
-				{
-					core::stringc tmp(filename);
-					return flattenFilename(tmp);
-				}
-				else
-				{
-					return core::stringc(fpath);
-				}
-			}
-
-			if (filename[filename.size() - 1] == '/')
-				return core::stringc(p) + "/";
-			else
-				return core::stringc(p);
-		}
+//		//! Converts a relative path to an absolute (unique) path, resolving symbolic links if required
+//		//! Platform dependent
+//		core::stringc SharedFileSystem::getAbsolutePath(
+//				const core::stringc& filename)
+//		{
+//			IRR_ASSERT(filename.size() > 0);
+//
+//			c8* p = 0;
+//			c8 fpath[4096];
+//			fpath[0] = 0;
+//			p = realpath(filename.cStr(), fpath);
+//
+//			if (!p)
+//			{
+//				// content in fpath is unclear at this point
+//				if (!fpath[0]) // seems like fpath wasn't altered, use our best guess
+//				{
+//					core::stringc tmp(filename);
+//					return flattenFilename(tmp);
+//				}
+//				else
+//				{
+//					return core::stringc(fpath);
+//				}
+//			}
+//
+//			if (filename[filename.size() - 1] == '/')
+//			{
+//				return core::stringc(p) + "/";
+//			}
+//			else
+//			{
+//				return core::stringc(p);
+//			}
+//		}
 
 		//! Returns the string of the current working directory
 		//! Platform dependent
@@ -102,7 +104,9 @@ namespace irrgame
 				success = (chdir(value.cStr()) == 0);
 
 				if (success)
+				{
 					WorkingDirectory[FILESYSTEM_NATIVE] = value;
+				}
 			}
 
 			return success;
@@ -118,17 +122,23 @@ namespace irrgame
 		IFileList* SharedFileSystem::createFileList()
 		{
 			IFileList* result = 0;
+
+			//TODO: remove after fix
+			result = irrgame::io::createFileList("", false, false);
+
 			core::stringc Path = getWorkingDirectory();
 			Path.replace('\\', '/');
 			if (Path.lastChar() != '/')
+			{
 				Path.append('/');
+			}
 
 			//! Construct from native filesystem
 			if (FileSystemType == FILESYSTEM_NATIVE)
 			{
 				core::stringc fullPath;
 
-				result = irrgame::io::createFileList(Path, false, false);
+//				result = irrgame::io::createFileList(Path, false, false);
 
 				result->addItem(Path + "..", 0, true, 0);
 
@@ -163,7 +173,7 @@ namespace irrgame
 			else
 			{
 				//! create file list for the virtual filesystem
-				result = irrgame::io::createFileList(Path, false, false);
+//				result = irrgame::io::createFileList(Path, false, false);
 
 				//! add relative navigation
 				SFileListEntry e2;
@@ -182,7 +192,7 @@ namespace irrgame
 
 					for (u32 j = 0; j < merge->getFileCount(); ++j)
 					{
-						if (ioutils::isInSameDirectory(Path,
+						if (StaticIOUtils::isInSameDirectory(Path,
 								merge->getFullFileName(j)) == 0)
 						{
 							core::stringc fullPath = merge->getFullFileName(j);

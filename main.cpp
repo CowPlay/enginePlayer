@@ -27,10 +27,19 @@ int some(int a)
 
 #define signature_app_creator IEngineApplication* (*)()
 
-//int main()
-//{
+#include "stdlib.h"
+
+int main()
+{
+	printf("aaa\n");
+	printf("aaa\n");
+	printf("aaa\n");
+	printf("aaa\n");
+	printf("aaa\n");
+	printf("aaa\n");
+	printf("aaa\n");
+
 //	IEnginePlayer* player = 	IEnginePlayer::createEnginePlayer();
-//
 //
 //	IAudioDriver* audioDrv = player->getAudioDriver();
 //
@@ -69,4 +78,4 @@ int some(int a)
 //	IRR_ASSERT(app != 0);
 //
 //	player->run(app);
-//}
+}

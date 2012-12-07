@@ -5,7 +5,7 @@
  *      Author: developer08
  */
 
-#include "CSoundNode.h"
+#include "CSoundNodeOpenAL.h"
 
 #ifdef AUDIO_DRIVER_OPENAL
 
@@ -17,37 +17,42 @@ namespace irrgame
 	namespace audio
 	{
 
-		CSoundNode::CSoundNode(ISoundNode* parent, SAudioSource* source) :
-				ISoundNode(parent, source), AlBufferSize(65536), AlBufferCount(2), Looping(false)
+		//! Default constructor
+		CSoundNodeOpenAL::CSoundNodeOpenAL(ISoundNode* parent,
+				SAudioSource* source) :
+				ISoundNode(parent, source), AlBufferSize(65536), AlBufferCount(
+						2), Looping(false)
 		{
 			Source->grab();
 
 			AlBuffer = new u32[AlBufferCount];
 		}
 
-		CSoundNode::~CSoundNode()
+		//! Destructor
+		CSoundNodeOpenAL::~CSoundNodeOpenAL()
 		{
 			if (Source)
 				Source->drop();
 
 			delete[] AlBuffer;
 
-			alSourceStop(AlSource);
+			alSourceStop(AlSourceID);
 
-			if (alIsSource(AlSource))
+			if (alIsSource(AlSourceID))
 			{
-				alDeleteSources(1, &AlSource);
+				alDeleteSources(1, &AlSourceID);
 			}
 		}
 
-		void CSoundNode::play(u32 pos, bool loop)
+		//! Plays a sound source
+		void CSoundNodeOpenAL::play(u32 pos, bool loop)
 		{
 			Looping = loop;
-			alSourcei(AlSource, AL_LOOPING, loop ? AL_TRUE : AL_FALSE);
+			alSourcei(AlSourceID, AL_LOOPING, loop ? AL_TRUE : AL_FALSE);
 
 			s32 state = 0;
 
-			alGetSourcei(AlSource, AL_SOURCE_STATE, &state);
+			alGetSourcei(AlSourceID, AL_SOURCE_STATE, &state);
 
 			// if the sound is played
 			IRR_ASSERT(state != AL_PLAYING);
@@ -63,12 +68,13 @@ namespace irrgame
 				}
 			}
 
-			alSourcePlay(AlSource);
+			alSourcePlay(AlSourceID);
 		}
 
-		void CSoundNode::stop()
+		//! Stop playing
+		void CSoundNodeOpenAL::stop()
 		{
-			alSourceStop(AlSource);
+			alSourceStop(AlSourceID);
 
 			Source->File->seek(0, false);
 
@@ -76,37 +82,59 @@ namespace irrgame
 			{
 				s32 queued;
 
-				alGetSourcei(AlSource, AL_BUFFERS_QUEUED, &queued);
+				alGetSourcei(AlSourceID, AL_BUFFERS_QUEUED, &queued);
 
 				if (queued > 0)
 				{
-					alSourceUnqueueBuffers(AlSource, 2, AlBuffer);
+					alSourceUnqueueBuffers(AlSourceID, 2, AlBuffer);
 				}
 
 				CurrentBuffer = 0;
 			}
 		}
 
-		void CSoundNode::pause()
+		//! Pause playing
+		void CSoundNodeOpenAL::pause()
 		{
-			alSourcePause(AlSource);
+			alSourcePause(AlSourceID);
 		}
 
-		bool CSoundNode::isStreamed()
+		//! Returns True if the sound is loaded entirely into memory. Otherwise returns False and sound are streamed in parts.
+		bool CSoundNodeOpenAL::isStreamed()
 		{
 			return Source->isStreamed();
 		}
 
-		void CSoundNode::applyEffect(SSoundEffect* value)
+		//! Set volume of this node
+		void CSoundNodeOpenAL::setVolume(const f32 value)
+		{
+			IRR_ASSERT(value >= 0.0);
+			//TODO: check max value
+
+			alSourcef(AlSourceID, AL_GAIN, value);
+		}
+
+		//! Returns volume of this node
+		f32 CSoundNodeOpenAL::getVolume()
+		{
+			f32 result = IrrNotFound;
+
+			alGetSourcef(AlSourceID, AL_GAIN, &result);
+
+			return result;
+		}
+
+		void CSoundNodeOpenAL::applyEffect(SSoundEffect* value)
 		{
 
 		}
-		void CSoundNode::removeEffect(SSoundEffect* value)
+
+		void CSoundNodeOpenAL::removeEffect(SSoundEffect* value)
 		{
 
 		}
 
-		void CSoundNode::applyFilter(ESoundFilterType value, f32 gainLf,
+		void CSoundNodeOpenAL::applyFilter(ESoundFilterType value, f32 gainLf,
 				f32 gainHf, f32 gain)
 		{
 
@@ -165,7 +193,7 @@ namespace irrgame
 //			Filters.insert(value, id);
 		}
 
-		void CSoundNode::removeFilter(ESoundFilterType value)
+		void CSoundNodeOpenAL::removeFilter(ESoundFilterType value)
 		{
 //			u32 id = 0;
 //
@@ -176,20 +204,21 @@ namespace irrgame
 //			IRR_ASSERT(alGetError() == AL_NO_ERROR);
 		}
 
-		void CSoundNode::update()
+		void CSoundNodeOpenAL::update()
 		{
 
 			if (Source->isStreamed())
 			{
 				s32 processed = 0;
 
-				alGetSourcei(AlSource, AL_BUFFERS_PROCESSED, &processed);
+				alGetSourcei(AlSourceID, AL_BUFFERS_PROCESSED, &processed);
 
 				IRR_ASSERT(alGetError() == AL_NO_ERROR);
 
 				if (processed == 1)
 				{
-					alSourceUnqueueBuffers(AlSource, 1, &AlBuffer[CurrentBuffer]);
+					alSourceUnqueueBuffers(AlSourceID, 1,
+							&AlBuffer[CurrentBuffer]);
 
 					IRR_ASSERT(alGetError() == AL_NO_ERROR);
 
@@ -203,7 +232,7 @@ namespace irrgame
 								Source->Buffer, Source->BufferSize,
 								Source->Rate);
 
-						alSourceQueueBuffers(AlSource, 1,
+						alSourceQueueBuffers(AlSourceID, 1,
 								&AlBuffer[CurrentBuffer]);
 
 						IRR_ASSERT(alGetError() == AL_NO_ERROR);
@@ -218,7 +247,7 @@ namespace irrgame
 					{
 						s32 queued;
 
-						alGetSourcei(AlSource, AL_BUFFERS_QUEUED, &queued);
+						alGetSourcei(AlSourceID, AL_BUFFERS_QUEUED, &queued);
 
 						IRR_ASSERT(alGetError() == AL_NO_ERROR);
 
@@ -232,7 +261,7 @@ namespace irrgame
 				}
 				else if (processed == 2)
 				{
-					alSourceUnqueueBuffers(AlSource, 2, AlBuffer);
+					alSourceUnqueueBuffers(AlSourceID, 2, AlBuffer);
 
 					IRR_ASSERT(alGetError() == AL_NO_ERROR);
 
@@ -248,7 +277,7 @@ namespace irrgame
 		{
 			IRR_ASSERT(parent && source);
 
-			return new CSoundNode(parent, source);
+			return new CSoundNodeOpenAL(parent, source);
 		}
 
 	} /* namespace audio */

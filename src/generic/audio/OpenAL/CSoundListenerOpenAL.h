@@ -19,21 +19,29 @@ namespace irrgame
 	namespace audio
 	{
 
-		class CSoundListener: public ISoundListener
+		class CSoundListenerOpenAL: public ISoundListener
 		{
 			public:
 				//! Default constructor
-				CSoundListener();
+				CSoundListenerOpenAL();
 
 				//! Destructor
-				virtual ~CSoundListener();
+				virtual ~CSoundListenerOpenAL();
+
+				//! Sets new volume of listener.
+				/* @param value New volume of listener. Range: 0.0 to TODO
+				 */
+				virtual void setVolume(const f32 value);
+
+				//! Returns volume of listener.
+				virtual f32 getVolume();
 
 				//! Sets the current listener 3d position.
 				/* When playing sounds in 3D, updating the position of the listener every frame should be
 				 * done using this function.
 				 * @param value New position of the listener.
 				 */
-				virtual void setPosition(vector3df value);
+				virtual void setPosition(const vector3df& value);
 
 				//! Gets the current listener 3d position.
 				virtual vector3df& getPosition();
@@ -44,7 +52,7 @@ namespace irrgame
 				 * the observer must move yourself.
 				 * @param vel Velocity of the listener.
 				 */
-				virtual void setVelocity(vector3df value);
+				virtual void setVelocity(const vector3df& value);
 
 				//! Gets the current listener 3d velocity.
 				virtual vector3df& getVelocity();
@@ -58,15 +66,14 @@ namespace irrgame
 				 * @param valueAt "at" vector of the listener
 				 * @param valueUp "up" vector of the listener
 				 */
-				virtual void setRotation(vector3df valueAt,
-						vector3df valueUp = vector3df(0, 1, 0));
+				virtual void setRotation(const vector3df& valueAt,
+						const vector3df& valueUp = vector3df(0, 1, 0));
 
 				//! Gets the current listener 3d rotation "at".
 				virtual vector3df& getRotationAt();
 
 				//! Gets the current listener 3d rotation "up".
 				virtual vector3df& getRotationUp();
-
 		};
 
 	}  // namespace audio

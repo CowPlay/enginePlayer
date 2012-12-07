@@ -5,7 +5,7 @@
  *      Author: developer08
  */
 
-#include "CSoundListener.h"
+#include "CSoundListenerOpenAL.h"
 
 #ifdef AUDIO_DRIVER_OPENAL
 
@@ -15,12 +15,16 @@ namespace irrgame
 {
 	namespace audio
 	{
-		CSoundListener::CSoundListener()
+		//! Default constructor
+		CSoundListenerOpenAL::CSoundListenerOpenAL()
 		{
+			Volume = 0.0f;
 			Position = vector3df(0, 0, 0);
 			Velocity = vector3df(0, 0, 0);
 			RotationAt = vector3df(0, 0, -1);
 			RotationUp = vector3df(0, 1, 0);
+
+			alGetListenerf(AL_GAIN, &Volume);
 
 			ALfloat ListenerPosition[3] =
 			{ Position.X, Position.Y, Position.Z };
@@ -41,11 +45,33 @@ namespace irrgame
 			IRR_ASSERT(alGetError() == AL_NO_ERROR);
 		}
 
-		CSoundListener::~CSoundListener()
+		//! Destructor
+		CSoundListenerOpenAL::~CSoundListenerOpenAL()
 		{
+
 		}
 
-		void CSoundListener::setPosition(vector3df value)
+		//! Sets new volume of listener.
+		void CSoundListenerOpenAL::setVolume(const f32 value)
+		{
+			//TODO: check max value
+			IRR_ASSERT(value >=0.0);
+
+			alListenerf(AL_GAIN, value);
+		}
+
+		//! Returns volume of listener.
+		f32 CSoundListenerOpenAL::getVolume()
+		{
+			f32 result = IrrNotFound;
+
+			alGetListenerf(AL_GAIN, &result);
+
+			return result;
+		}
+
+		//! Sets the current listener 3d position.
+		void CSoundListenerOpenAL::setPosition(const vector3df& value)
 		{
 			ALfloat ListenerPosition[3] =
 			{ value.X, value.Y, value.Z };
@@ -55,12 +81,14 @@ namespace irrgame
 			IRR_ASSERT(alGetError() == AL_NO_ERROR);
 		}
 
-		vector3df& CSoundListener::getPosition()
+		//! Gets the current listener 3d position.
+		vector3df& CSoundListenerOpenAL::getPosition()
 		{
 			return Position;
 		}
 
-		void CSoundListener::setVelocity(vector3df value)
+		//! Gets the current listener 3d position.
+		void CSoundListenerOpenAL::setVelocity(const vector3df& value)
 		{
 			ALfloat ListenerVelocity[3] =
 			{ value.X, value.Y, value.Z };
@@ -70,12 +98,15 @@ namespace irrgame
 			IRR_ASSERT(alGetError() == AL_NO_ERROR);
 		}
 
-		vector3df& CSoundListener::getVelocity()
+		//! Gets the current listener 3d velocity.
+		vector3df& CSoundListenerOpenAL::getVelocity()
 		{
 			return Velocity;
 		}
 
-		void CSoundListener::setRotation(vector3df valueAt, vector3df valueUp)
+		//! Sets the current listener 3d rotation.
+		void CSoundListenerOpenAL::setRotation(const vector3df& valueAt,
+				const vector3df& valueUp)
 		{
 			ALfloat ListenerOrientation[6] =
 			{ valueAt.X, valueAt.Y, valueAt.Z, valueUp.X, valueUp.Y, valueUp.Z };
@@ -86,13 +117,13 @@ namespace irrgame
 		}
 
 		//! Gets the current listener 3d rotation "at".
-		vector3df& CSoundListener::getRotationAt()
+		vector3df& CSoundListenerOpenAL::getRotationAt()
 		{
 			return RotationAt;
 		}
 
 		//! Gets the current listener 3d rotation "up".
-		vector3df& CSoundListener::getRotationUp()
+		vector3df& CSoundListenerOpenAL::getRotationUp()
 		{
 			return RotationUp;
 		}
@@ -100,7 +131,7 @@ namespace irrgame
 		//! Internal function. Please do not use.
 		ISoundListener* createSoundListener()
 		{
-			return new CSoundListener;
+			return new CSoundListenerOpenAL;
 		}
 
 	}  // namespace audio

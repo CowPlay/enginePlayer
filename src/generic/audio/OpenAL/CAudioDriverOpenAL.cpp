@@ -9,48 +9,45 @@
 
 #ifdef AUDIO_DRIVER_OPENAL
 
-#include "alut/include/AL/alut.h"
+#include "alut/include/alut.h"
 
 namespace irrgame
 {
 	namespace audio
 	{
 
-		CAudioDriver::CAudioDriver() :
+		//! Constructor
+		CAudioDriverOpenAL::CAudioDriverOpenAL() :
 				Device(0), Context(0)
 		{
-			alutInit(0, NULL);
+			//if alutInit returns false - something wrong
+			IRR_ASSERT(alutInit(0, NULL));
+
+			//audio context to which it applies all changes in the
+			Context = alcGetCurrentContext();
+
+			IRR_ASSERT(Context);
 
 			//open the audio device, the default.
 			//If you want to explicitly specify the desired device, instead of NULL pass the string with the name of your device.
-			Device = alcOpenDevice(0);
+			Device = alcGetContextsDevice(Context);
 
 			IRR_ASSERT(Device);
 
-			//audio context to which it applies all changes in the
-			Context = alcCreateContext(Device, 0);
-
 			IRR_ASSERT(alcGetError(Device) == ALC_NO_ERROR);
-
-			alcMakeContextCurrent(Context);
-
 		}
 
-		CAudioDriver::~CAudioDriver()
+		//! Destructor
+		CAudioDriverOpenAL::~CAudioDriverOpenAL()
 		{
-			alcMakeContextCurrent(0);
-
-			alcDestroyContext(Context);
-
-			alcCloseDevice(Device);
-
+			//Close device and destroy context
 			alutExit();
-
 		}
 
+		//! Internal function. Please do not use.
 		IAudioDriver* createAudioDriver()
 		{
-		return new 	CAudioDriver();
+			return new CAudioDriverOpenAL;
 		}
 
 	} // end namespace audio

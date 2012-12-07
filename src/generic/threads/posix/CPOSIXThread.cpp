@@ -29,8 +29,6 @@ namespace irrgame
 		}
 
 		//! Causes the operating system to sleep current thread.
-		//! Platform dependent
-		//@ param0 - time in ms.
 		void IThread::sleep(s32 time)
 		{
 			usleep(time * 1000);
@@ -53,9 +51,6 @@ namespace irrgame
 		}
 
 		//! Default constructor
-		//! Platform dependent
-		//@ param1 - thread name
-		//@ param2 - input parameter
 		CPOSIXThread::CPOSIXThread(delegateThreadCallback* callback,
 				void* callbackArg, EThreadPriority prior) :
 				Priority(prior), Handle(0)
@@ -75,7 +70,6 @@ namespace irrgame
 		}
 
 		//! Causes the operating system to start thread, and optionally supplies an object containing data to be used by the method the thread executes
-		//! Platform dependent
 		void CPOSIXThread::start()
 		{
 			s32 error = 0;
@@ -161,76 +155,6 @@ namespace irrgame
 ////		{
 ////
 ////		}
-//
-//		//! irrgameThread creator. Internal function. Please do not use.
-//		IThread* createIrrgameThread(delegateThreadCallback* callback,
-//				void* callbackArg, EThreadPriority prior, core::stringc name)
-//		{
-//
-//		}
-//
-//	/*
-//	 * #include <cstdlib>
-//	 #include <iostream>
-//	 #include <memory>
-//
-//	 #include <pthread.h>
-//
-//	 class Thread
-//	 {
-//	 private:
-//	 pthread_t thread;
-//
-//	 Thread(const Thread& copy);         // copy constructor denied
-//	 static void *thread_func(void *d)   { ((Thread *)d)->run(); }
-//
-//	 public:
-//	 Thread()             {}
-//	 virtual ~Thread()    {}
-//
-//	 virtual void run() = 0;
-//
-//	 int start()          { return pthread_create(&thread, NULL,
-//	 Thread::thread_func, (void*)this); }
-//	 int wait ()          { return pthread_join  (thread, NULL); }
-//	 };
-//
-//	 typedef std::auto_ptr<Thread> ThreadPtr;
-//
-//	 int main(void)
-//	 {
-//	 class Thread_a:public Thread
-//	 {
-//	 public:
-//	 void run()
-//	 {
-//	 for (int i=0; i<20; i++, sleep(1))
-//	 std::cout << "a  " << std::endl;
-//	 }
-//	 };
-//
-//	 class Thread_b:public Thread
-//	 {
-//	 public:
-//	 void run()
-//	 {
-//	 for(int i=0; i<20; i++, sleep(1))
-//	 std::cout << "  b" << std::endl;
-//	 }
-//	 };
-//
-//	 ThreadPtr a( new Thread_a() );
-//	 ThreadPtr b( new Thread_b() );
-//
-//	 if (a->start() != 0 || b->start() != 0)
-//	 return EXIT_FAILURE;
-//
-//	 if (a->wait() != 0 || b->wait() != 0)
-//	 return EXIT_FAILURE;
-//
-//	 return EXIT_SUCCESS;
-//	 } *
-//	 */
 //
 	}
 }

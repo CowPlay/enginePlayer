@@ -17,21 +17,20 @@
 #include "audio/sfx/SSoundEffect.h"
 #include "core/collections/map/map.h"
 
-
 namespace irrgame
 {
 	namespace audio
 	{
 
-		class CSoundNode: public ISoundNode
+		class CSoundNodeOpenAL: public ISoundNode
 		{
 			public:
 
 				//! Default constructor
-				CSoundNode(ISoundNode* parent, SAudioSource* source);
+				CSoundNodeOpenAL(ISoundNode* parent, SAudioSource* source);
 
 				//! Destructor
-				virtual ~CSoundNode();
+				virtual ~CSoundNodeOpenAL();
 
 				//! Plays a sound source
 				/* @param pos the position at which to begin playing
@@ -40,17 +39,23 @@ namespace irrgame
 				virtual void play(u32 pos = 0, bool loop = false);
 
 				//! Stop playing.
-				/* When you start to play playing from the beginning.
+				/* When you call play() after stop() playback starts from the beginning.
 				 */
 				virtual void stop();
 
 				//! Pause playing.
-				/* When you start to play playing from where it paused.
+				/* When you call play() after pause() playback starts from where it paused.
 				 */
 				virtual void pause();
 
+				//! Set volume of this node
+				virtual void setVolume(const f32 value);
+
+				//! Returns volume of this node
+				virtual f32 getVolume();
+
 				//! Check the sound is loaded entirely into memory, or streamed in parts.
-				/* returns true if sound loaded parts.
+				/* @returns true if sound loaded parts. Otherwise returns false.
 				 */
 				virtual bool isStreamed();
 
@@ -72,7 +77,7 @@ namespace irrgame
 				 * Range: 0.0..1.0 (default 1.0).
 				 */
 				virtual void applyFilter(ESoundFilterType value, f32 gainLf,
-						f32 gainHf, f32 gain = 1.0);
+						f32 GainHf, f32 gain = 1.0);
 
 				//! Disconnected from the source directly filter.
 				/* @param value: a pointer to the filter to remove.
@@ -85,6 +90,7 @@ namespace irrgame
 				void update();
 
 			private:
+				//! Pointer to the source which played
 				SAudioSource* Source;
 
 				//! id's of the sound buffer
@@ -94,7 +100,8 @@ namespace irrgame
 
 				u32* AlBuffer;
 
-				u32 AlSource;
+				//! ID of al source
+				u32 AlSourceID;
 
 				u32 CurrentBuffer;
 

@@ -405,6 +405,7 @@ BOOL APIENTRY DllMain(HANDLE hModule,DWORD ul_reason_for_call,LPVOID lpReserved)
 #endif
 #endif
 
+__attribute__ ((unused))
 static void alc_init(void)
 {
     int i;
@@ -532,6 +533,7 @@ static void alc_init(void)
     }
 }
 
+__attribute__ ((unused))
 static void alc_deinit(void)
 {
     int i;

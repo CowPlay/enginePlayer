@@ -21,22 +21,22 @@ namespace irrgame
 	{
 
 		//TODO: write comment
-		class CAudioDriver: public IAudioDriver
+		class CAudioDriverOpenAL: public IAudioDriver
 		{
 
 			public:
 
 				//! Constructor
-				CAudioDriver();
+				CAudioDriverOpenAL();
 
 				//! Destructor
-				virtual ~CAudioDriver();
-
+				virtual ~CAudioDriverOpenAL();
 
 			protected:
 
+				//! Pointer to current AL device
 				ALCdevice* Device;
-
+				//! Pointer to current AL context
 				ALCcontext* Context;
 		};
 

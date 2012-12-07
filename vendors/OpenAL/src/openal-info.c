@@ -159,6 +159,7 @@ static ALCenum checkALCErrors(ALCdevice *device, int linenum)
 }
 #define checkALCErrors(x) checkALCErrors((x),__LINE__)
 
+__attribute__ ((unused))
 static void printALCInfo(ALCdevice *device)
 {
 	ALCint major, minor;
@@ -175,6 +176,7 @@ static void printALCInfo(ALCdevice *device)
 	}
 }
 
+__attribute__ ((unused))
 static void printALInfo(void)
 {
 	printf("OpenAL vendor string: %s\n", alGetString(AL_VENDOR));
@@ -185,6 +187,7 @@ static void printALInfo(void)
 	checkALErrors();
 }
 
+__attribute__ ((unused))
 static void printEFXInfo(ALCdevice *device)
 {
 	ALCint major, minor, sends;

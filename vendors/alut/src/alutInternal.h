@@ -49,7 +49,7 @@ typedef uint32_t UInt32LittleEndian;
 #define UNUSED(x) x
 #endif
 
-#include "alut/include/AL/alut.h"
+#include "alut/include/alut.h"
 
 #define AU_HEADER_SIZE 24
 

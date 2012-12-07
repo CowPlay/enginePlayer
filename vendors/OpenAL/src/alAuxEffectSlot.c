@@ -21,6 +21,7 @@
 #include "OpenAL/config.h"
 
 #include <stdlib.h>
+#include <stdint.h>
 #include <math.h>
 
 #include "OpenAL/AL/al.h"
@@ -68,7 +69,7 @@ AL_API ALvoid AL_APIENTRY alGenAuxiliaryEffectSlots(ALsizei n, ALuint *effectslo
                 break;
             }
 
-            slot->effectslot = (ALuint)ALTHUNK_ADDENTRY(slot);
+            slot->effectslot = (ALuint)ALTHUNK_ADDENTRY((intptr_t)slot);
             err = InsertUIntMapEntry(&Context->EffectSlotMap,
                                      slot->effectslot, slot);
             if(err != AL_NO_ERROR)

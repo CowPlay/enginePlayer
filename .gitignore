@@ -14,10 +14,10 @@
 
 # OSX
 *.DS_Store
-DebugOSX/**
-ReleaseOSX/**
+OSXDebug/**
+OSXRelease/**
 
 
 # linux
-DebugLinux/**
-ReleaseLinux/**
+LinuxDebug/**
+LinuxRelease/**

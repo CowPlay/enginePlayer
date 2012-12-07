@@ -66,7 +66,7 @@ AL_API ALvoid AL_APIENTRY alGenDatabuffersEXT(ALsizei n,ALuint *puiBuffers)
                 break;
             }
 
-            buffer->databuffer = ALTHUNK_ADDENTRY(buffer);
+            buffer->databuffer = ALTHUNK_ADDENTRY((intptr_t)buffer);
             err = InsertUIntMapEntry(&device->DatabufferMap,
                                      buffer->databuffer, buffer);
             if(err != AL_NO_ERROR)
