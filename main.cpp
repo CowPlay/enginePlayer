@@ -31,13 +31,11 @@ int some(int a)
 
 int main()
 {
-	printf("aaa\n");
-	printf("aaa\n");
-	printf("aaa\n");
-	printf("aaa\n");
-	printf("aaa\n");
-	printf("aaa\n");
-	printf("aaa\n");
+	IAudioDriver* driver = createAudioDriver();
+	ISoundManager* manager = createSoundManager();
+	SAudioSource* src = manager->getAudioSource("/assets/test.wav");
+	manager->addSoundNode(src);
+
 
 //	IEnginePlayer* player = 	IEnginePlayer::createEnginePlayer();
 //

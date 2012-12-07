@@ -3,6 +3,7 @@
 	<name>enginePlayer</name>
 	<comment></comment>
 	<projects>
+		<project>engineSDK</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
