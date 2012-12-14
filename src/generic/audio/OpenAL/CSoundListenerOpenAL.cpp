@@ -9,7 +9,7 @@
 
 #ifdef AUDIO_DRIVER_OPENAL
 
-#include "OpenAL/AL/al.h"
+#include "OpenAL/al.h"
 
 namespace irrgame
 {

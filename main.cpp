@@ -34,8 +34,8 @@ int main()
 	IAudioDriver* driver = createAudioDriver();
 	ISoundManager* manager = createSoundManager();
 	SAudioSource* src = manager->getAudioSource("/assets/test.wav");
-	manager->addSoundNode(src);
-
+	ISoundNode* node = manager->addSoundNode(src);
+	node->play();
 
 //	IEnginePlayer* player = 	IEnginePlayer::createEnginePlayer();
 //

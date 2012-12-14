@@ -43,9 +43,9 @@ namespace irrgame
 
 		f32 StaticByteSwap::byteswap(f32 num)
 		{
-			u32 tmp = core::SharedConverter::getInstance().convertToUInt(num);
+			u32 tmp = core::StaticConverter::convertToUInt(num);
 			tmp = bswap_32(tmp);
-			return (core::SharedConverter::getInstance().convertToFloat(tmp));
+			return (core::StaticConverter::convertToFloat(tmp));
 		}
 
 		// prevent accidental byte swapping of chars

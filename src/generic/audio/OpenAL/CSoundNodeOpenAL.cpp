@@ -9,8 +9,8 @@
 
 #ifdef AUDIO_DRIVER_OPENAL
 
-#include "OpenAL/AL/al.h"
-#include "OpenAL/AL/efx.h"
+#include "OpenAL/al.h"
+#include "OpenAL/efx.h"
 
 namespace irrgame
 {
@@ -21,9 +21,15 @@ namespace irrgame
 		CSoundNodeOpenAL::CSoundNodeOpenAL(ISoundNode* parent,
 				SAudioSource* source) :
 				ISoundNode(parent, source), AlBufferSize(65536), AlBufferCount(
-						2), Looping(false)
+						2), AlBuffer(0), AlSourceID(0), CurrentBuffer(0), Looping(
+						false)
 		{
 			Source->grab();
+
+			//generate source id
+			alGenSources(1, &AlSourceID);
+
+			IRR_ASSERT(!alGetError());
 
 			AlBuffer = new u32[AlBufferCount];
 		}
@@ -31,12 +37,12 @@ namespace irrgame
 		//! Destructor
 		CSoundNodeOpenAL::~CSoundNodeOpenAL()
 		{
+			alSourceStop(AlSourceID);
+
 			if (Source)
 				Source->drop();
 
 			delete[] AlBuffer;
-
-			alSourceStop(AlSourceID);
 
 			if (alIsSource(AlSourceID))
 			{
@@ -206,7 +212,6 @@ namespace irrgame
 
 		void CSoundNodeOpenAL::update()
 		{
-
 			if (Source->isStreamed())
 			{
 				s32 processed = 0;
@@ -239,6 +244,7 @@ namespace irrgame
 
 						if (Source->BufferSize < AlBufferSize && Looping)
 						{
+							//TODO:review
 							Source->File->seek(0, false);
 
 						}

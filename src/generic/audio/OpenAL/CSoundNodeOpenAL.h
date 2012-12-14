@@ -21,7 +21,7 @@ namespace irrgame
 {
 	namespace audio
 	{
-
+		//! OpenAL realizstion of sound node
 		class CSoundNodeOpenAL: public ISoundNode
 		{
 			public:
@@ -90,19 +90,16 @@ namespace irrgame
 				void update();
 
 			private:
-				//! Pointer to the source which played
-				SAudioSource* Source;
 
-				//! id's of the sound buffer
-
+				//! Sound node buffers size
 				u32 AlBufferSize;
+				//! Sound node buffers count
 				u32 AlBufferCount;
-
+				//! Pointer to current buffer
 				u32* AlBuffer;
-
 				//! ID of al source
 				u32 AlSourceID;
-
+				//!
 				u32 CurrentBuffer;
 
 				bool Looping;

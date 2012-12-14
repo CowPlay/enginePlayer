@@ -13,7 +13,7 @@
 #define CAUDIODRIVEROPENAL_H_
 
 #include "audio/IAudioDriver.h"
-#include "OpenAL/AL/alc.h"
+#include "OpenAL/alc.h"
 
 namespace irrgame
 {
